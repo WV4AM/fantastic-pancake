@@ -1,26 +1,55 @@
-// Original content of the game.js file goes here.
+// Game Logic Implementation
 
-// Function triggers when a piece is dragged
+// Highlight valid moves when a piece is picked up
 function onDragStart(event) {
-    const validMoves = game.moves(); // Get valid moves
-    validMoves.forEach(move => {
-        const tileElement = document.getElementById(move);
-        if (tileElement) {
-            tileElement.style.border = '2px solid yellow'; // Highlight valid move tiles
-        }
+    const validMoves = highlightValidMoves(event);
+    if (validMoves.length > 0) {
+        // Apply yellow glow highlighting
+        validMoves.forEach(move => {
+            const square = document.getElementById(move);
+            square.classList.add('highlight');
+        });
+    }
+}
+
+// Reset board on game end
+function showEndgameModal() {
+    // Display endgame modal
+    // ... existing modal display logic
+
+    const okButton = document.getElementById('okButton');
+    okButton.onclick = function() {
+        resetBoard(); // Reset board function
+        closeModal(); // Close modal function
+    };
+}
+
+// Launch confetti blast at the end
+function endGame() {
+    launchConfettiLoop();
+    showEndgameModal();
+}
+
+// After move logic
+function afterMove() {
+    // ... existing move handling logic
+    // Clear highlights after move
+    clearHighlights();
+}
+
+// Clear highlighting of valid moves
+function clearHighlights() {
+    const highlightedSquares = document.querySelectorAll('.highlight');
+    highlightedSquares.forEach(square => {
+        square.classList.remove('highlight');
     });
 }
 
-// Other game logic...
-
-// Function to check the game state and update accordingly
-function checkGameEndAndUpdate() {
-    if (game.isGameOver()) {
-        game.reset(); // Reset the game
-        board.start(); // Restart the board
-        launchConfettiLoop(); // Trigger confetti blast
-    }
-    // Additional game end logic...
+// Cancel promotion
+function cancelPromotion() {
+    // ... existing cancel promotion logic
+    clearHighlights(); // Ensure highlights are cleared
 }
 
-// More game logic below...
+// Additional game logic methods
+// ... existing game methods and logic continuation \n
